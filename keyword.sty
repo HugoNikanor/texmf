@@ -1,0 +1,27 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{keyword}[2016/08/31 Package for keywords (hashtags)]
+
+% custom counter and content tables
+\RequirePackage{tocloft}
+
+% Sets up the keyword counter
+% saves the keywords to <filename>.keywords
+% The last field is for keyword text, and left blank as a cheap
+% wap to style it for the time being
+\newlistof{keywordCounter}{keywords}{}
+
+% Defalut keyword display function
+% Overwrite this for different display
+\newcommand{\keywordstyle}[1]{%
+	\marginpar{Keyword: #1}
+}
+
+% Use this to tag document of important keywords that might be interesting later
+\newcommand{\keyword}[1]{%
+	% Add keyword to list
+	\refstepcounter{keywordCounter}
+	\addcontentsline{keywords}{keywordCounter}{\quad#1}
+	\keywordstyle{#1}
+	% Write keyword to log file, to be retrived later
+	\wlog{[keyword]: #1}
+}
