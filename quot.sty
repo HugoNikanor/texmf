@@ -1,0 +1,25 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{quot}[2018/01/22 simple international quotation marks]
+
+% Include this after you have set the language for babel
+
+\RequirePackage{iflang}
+
+\newcounter{QuotDepth}
+
+\def\unstepcounter#1{\addtocounter{#1}{-1}}
+
+\newcommand{\quot}[1]{%
+  \stepcounter{QuotDepth}%
+  \ifnum\value{QuotDepth}=1%
+	\long\def\qq##1{``{##1}''}%
+	\IfLanguageName{swedish}{\long\def\qq##1{``{##1}``}}{}%
+	\IfLanguageName{german}{\long\def\qq##1{,,{##1}''}}{}%
+  \else%
+	\long\def\qq##1{`{##1}'}%
+	\IfLanguageName{swedish}{\long\def\qq##1{`{##1}`}}{}%
+	\IfLanguageName{german}{\long\def\qq##1{,{##1}'}}{}%
+  \fi%
+  \qq{#1}%
+  \unstepcounter{QuotDepth}%
+}
