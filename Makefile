@@ -1,6 +1,9 @@
 .PHONY: all
 
-all:
+TEXMFHOME=$$(kpsewhich --var-value TEXMFHOME)
 
-	mkdir -p ~/texmf/tex/latex/keyword || true
-	cp keyword.sty ~/texmf/tex/latex/keyword/
+% : %.sty
+	-mkdir -p $(TEXMFHOME)/tex/latex/$@
+	cp $< $(TEXMFHOME)/tex/latex/$@/$<
+
+all : keyword quot
