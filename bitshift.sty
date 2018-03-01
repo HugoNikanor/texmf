@@ -1,0 +1,15 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bitshift}[2018/03/01 Literal bitshifts in math mode]
+
+\makeatletter
+\let\old@lt<
+\let\old@gt>
+
+\def\lsl{<\kern-3pt<}
+\def\lsr{>\kern-3pt>}
+\catcode`<\active
+\catcode`>\active
+
+\def<{\@ifnextchar<{\lsl\@gobble}\old@lt}
+\def>{\@ifnextchar>{\lsr\@gobble}\old@gt}
+\makeatother
