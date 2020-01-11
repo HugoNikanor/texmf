@@ -1,0 +1,169 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mathheader}[2018/10/20 A collection of math macros and settings]
+
+% math stuff
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{breqn} % dmath environment
+\RequirePackage{dsfont} % \R
+\RequirePackage{xfrac} % \sfrac
+\RequirePackage{relsize} % \mathlarger
+
+% Quick better typesetting
+\usepackage[shortlabels]{enumitem} % optional format to enumerate
+\usepackage{array} % \newcolumntype
+
+% Other
+\usepackage{tikz}
+\usepackage{textcomp}
+\usepackage{cancel}             % \cancel{i} == ~~i
+
+
+
+\newcolumntype{C}{>{$}c<{$}} % center math
+\newcolumntype{s}{p{0.1mm}}  % small
+\newcolumntype{S}{>{$}s<{$}} % small math
+
+\DeclareMathSymbol{*}{\mathbin}{symbols}{"01}
+
+\everymath{\displaystyle}
+
+\newcommand{\qtext}[1]{\ensuremath{\text~#1~}}
+\newcommand{\da}{\qtext{då}}
+\newcommand{\om}{\qtext{om}}
+\newcommand{\dar}{\qtext{där}}
+\newcommand{\och}{\qtext{och}}
+\newcommand{\ty}{\qtext{ty}}
+\newcommand{\obs}{\qtext{obs}}
+\newcommand{\konv}{\qtext{konv}}
+
+
+% \newcommand{\desc}[1]{\ensuremath{\left\{\text{#1}\right\}}}
+% \newcommand{\mbig}[1]{\mathlarger{\mathlarger{#1}}}
+% \let\pp\paragraph
+
+
+\newcounter{allcounter}
+\newcommand{\definition}[1][]{%
+  \refstepcounter{allcounter}%
+  \paragraph{\emph{Def. \arabic{allcounter} #1}}}
+\let\deffi\definition
+\newcommand{\sats}[1][]{%
+  \refstepcounter{allcounter}%
+  \paragraph{\emph{Sats \arabic{allcounter} #1}}}
+\newcommand{\bevis}[1][]{%
+  \refstepcounter{allcounter}%
+  \paragraph{\emph{Bevis \arabic{allcounter} #1}}}
+\newcommand{\ex}[1][]{%
+  \refstepcounter{allcounter}%
+  \paragraph{\emph{Exempel \arabic{allcounter} #1}}}
+\let\exempel\ex % alias
+\newcommand{\solution}{\paragraph{\emph{Lösn. \arabic{allcounter}}}}
+\let\losn\solution
+\let\losning\solution
+
+
+
+\newcounter{icounter}
+\counterwithin*{icounter}{allcounter}
+\newcommand{\iitem}{\refstepcounter{icounter}\paragraph*{(\roman{icounter})}}
+
+
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1}
+\newcommand{\dt}{\d{t}}
+\newcommand{\dx}{\d{x}}
+\newcommand{\dy}{\d{y}}
+
+
+
+
+\newcommand{\eset}{\ensuremath{\varnothing}}
+\newcommand{\union}{\ensuremath{\cup}}
+\newcommand{\bunion}{\ensuremath{\bigcup}}
+\newcommand{\snitt}{\ensuremath{\cap}}
+\newcommand{\comp}[1]{\ensuremath{{#1}^C}}
+%\newcommand{\comp}[1]{\ensuremath{\complement #1}}
+
+\newcommand{\lto}{\Longrightarrow} % Leads TO (lto)
+\newcommand{\To}{\Rightarrow}
+% https://tex.stackexchange.com/questions/375992/bad-mathchar-with-semantic-package
+
+\newcommand{\proofend}{\ensuremath{\quad\square}}
+
+\newcommand{\R}{\mathds{R}}
+\newcommand{\N}{\mathds{N}}
+\newcommand{\Z}{\mathds{Z}}
+\newcommand{\Q}{\mathds{Q}}
+\newcommand{\C}{\mathds{C}}
+
+\newcommand{\Exp}[1]{\ensuremath{\mathrm{Exp}\left(#1\right)}}
+
+% \newcommand{\O}[1]{\mathcal{O}\big(#1\big)}
+
+\newcommand{\trassla}{\xi}
+\newcommand{\gaffla}{\psi}
+\newcommand{\Gaffla}{\Psi}
+
+\makeatletter
+\let\@epsilon\epsilon
+\let\epsilon\varepsilon
+\let\varepsilon\@epsilon
+\unlet\@epsilon
+\makeatother
+
+
+
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\lr}[1]{\left(#1\right)}
+
+\newcommand{\mathnote}[1]{%
+  \ensuremath{\Bigg/\text{#1}\Bigg/}
+}
+
+\RequirePackage[most]{tcolorbox}
+\newenvironment{note}{\begin{tcolorbox}}{\end{tcolorbox}}
+
+\RequirePackage{pbox}
+
+% typ [0 / 0]
+\newcommand{\typ}[2]{= {\mbox{\tiny \(\left[\frac{#1}{#2}\right]\)}} =}
+\def\typoo{\typ 0 0}
+
+
+%% Plotting
+
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+
+\newcommand{\p}[3][]{
+\addplot[color=red, samples=100, #1]{#3};
+\addlegendentry{\(#2\)}
+}
+
+\newenvironment{plot}[1][]{%
+  \begin{tikzpicture}
+    \begin{axis}[axis lines = center, #1]}
+{\end{axis}\end{tikzpicture}}
+
+
+%% Braces
+\RequirePackage{ifthen}
+
+\usetikzlibrary{decorations.pathreplacing,calc}
+% https://tex.stackexchange.com/questions/12391/large-braces-over-several-items-in-an-itemize-with-text-by-the-brace#12395
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+
+% Tillåter inte nästlade klammrar
+% Går sönder om start och slut är på olika sidor
+\newcommand{\bracetext}{}
+\newcommand{\inbrace}[1]{\renewcommand\bracetext{#1}\tikzmark{topbrace}}
+\newcommand{\unbrace}{\tikzmark{bottombrace}%
+\begin{tikzpicture}[overlay, remember picture]
+  \draw [decoration={brace,amplitude=0.5em},decorate,thick,black]
+  let \p1=(topbrace), \p2=(bottombrace)
+  in
+    ({max(\x1,\x2)}, {\y1+0.8em}) --
+  node[right=0.6em]{\bracetext}({max(\x1,\x2)}, {\y2});
+\end{tikzpicture}
+}
