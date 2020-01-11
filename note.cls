@@ -42,6 +42,13 @@
 	\normalmarginpar%
 }
 
+\RequirePackage{iflang}
+
+\newcommand\pageof{
+	\IfLanguageName{swedish}{av}{%
+		\IfLanguageName{english}{of}{%
+			--}}}
+
 % redefining plain seems to be the best way to apply it to all pages
 % Note that this dissalows for a fancy header, since the title is in the way
 \fancypagestyle{plain}{%
@@ -50,7 +57,7 @@
 	\fancyfoot[COE]{%
 		\begin{minipage}{\textwidth}
 			\newgeometry{inner=2cm, outer=2cm}
-			\theauthor\hfill\thepage{}~or~\pageref{LastPage}\hfill\course{}
+			\theauthor\hfill\thepage{}~\pageof~\pageref{LastPage}\hfill\course{}
 			\restoregeometry{}
 		\end{minipage}
 	}
