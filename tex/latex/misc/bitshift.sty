@@ -1,6 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{bitshift}[2018/03/01 Literal bitshifts in math mode]
 
+% This package is incompatible with flexisym (part of breqn).
+% It also redefines `<' and `>', breaking comparison in TeX.
+
 \makeatletter
 \let\old@lt<
 \let\old@gt>
