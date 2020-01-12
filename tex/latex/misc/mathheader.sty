@@ -134,6 +134,8 @@
 
 \RequirePackage{pgfplots}
 
+\pgfplotsset{compat=1.16}
+
 \newcommand{\p}[3][]{
 \addplot[color=red, samples=100, #1]{#3};
 \addlegendentry{\(#2\)}
