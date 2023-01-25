@@ -61,6 +61,9 @@
 \newcommand{\solution}{\paragraph{\emph{Lösn. \arabic{allcounter}}}}
 \let\losn\solution
 \let\losning\solution
+\newcommand{\OBS}[1][]{%
+  \refstepcounter{allcounter}%
+  \paragraph{\emph{OBS \arabic{allcounter} #1}}}
 
 
 
